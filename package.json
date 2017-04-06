@@ -1,7 +1,7 @@
 {
   "name": "milkrun",
   "version": "0.0.0",
-  "description": "Small description for milkrun goes here",
+  "description": "Ember Invoicing for Milk Runs",
   "license": "MIT",
   "author": "",
   "directories": {
