@@ -1,0 +1,12 @@
+<h2>List</h2>
+
+<div class="row">
+  {{#each model as |customer|}}
+    <div class="col-md-4">
+      {{#customer-item item=customer}}
+        {{#link-to 'customers.edit' customer.id class="btn btn-success btn-xs"}}Edit{{/link-to}}
+        <button class="btn btn-danger btn-xs" {{action 'deleteCustomer' customer}}>Delete</button>
+      {{/customer-item}}
+    </div>
+  {{/each}}
+</div>
