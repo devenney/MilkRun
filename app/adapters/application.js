@@ -1,10 +1,31 @@
+// App Config
+import config from '../config/environment';
+// Ember
+import Ember from 'ember';
+// Pouch
 import PouchDB from 'pouchdb';
 import { Adapter } from 'ember-pouch';
 
-var db = new PouchDB('local_pouch');
+const { assert, isEmpty } = Ember;
 
-PouchDB.debug.enable('*');
+/**
+ * createDb() creats a local PouchDB
+ *
+ * @return {PouchDB} db
+ */
+function createDb() {
+  const localDb = config.local_couch;
+
+  assert('local_couch must be set', !isEmpty(localDb));
+
+  let db = new PouchDB(localDb);
+
+  return db;
+}
 
 export default Adapter.extend({
-  db: db
+  init() {
+    this._super(...arguments);
+    this.set('db', createDb());
+  }
 });

@@ -1,0 +1,14 @@
+<h2>List</h2>
+
+<div class="row">
+  {{#each model.invoices as |invoice|}}
+    <div class="col-md-4">
+      {{#invoice-item item=invoice}}
+        {{#link-to 'invoices.view' invoice.id class="btn btn-success btn-xs"}}View{{/link-to}}
+        {{#link-to 'invoices.edit' invoice.id class="btn btn-warning btn-xs"}}Edit{{/link-to}}
+        <button class="btn btn-danger btn-xs" {{action 'deleteInvoice' invoice}}>Delete</button>
+      {{/invoice-item}}
+    </div>
+  {{/each}}
+</div>
+

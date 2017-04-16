@@ -46,5 +46,8 @@ module.exports = function(environment) {
 
   }
 
+  // PouchDB Name
+  ENV.local_couch = 'milkrun';
+
   return ENV;
 };
