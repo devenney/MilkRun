@@ -1,0 +1,54 @@
+    <div id="printable" class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <!-- TODO: Logo/Branding -->
+                            </td>
+
+                            <td>
+                                <!-- FIXME: Hardcoded! -->
+																Created: January 1, 2015<br>
+                                Due: {{invoice.date}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                <!-- FIXME: Hardcoded! -->
+																Meikle Balquhomrie Farm<br>
+                                Leslie, Glenrothes KY6 3JL
+                            </td>
+
+                            <td>
+																{{invoice.customer.forename}} {{invoice.customer.surname}}<br>
+																{{invoice.customer.address}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="total">
+                <td></td>
+
+                <td>
+                   Total: ${{invoice.amount}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+		<div class="btn-group well pull-right" role="group">
+			<button type="button" class="btn btn-primary btn" {{action 'printInvoice'}}>Print</button>
+      {{#link-to 'invoices.edit' invoice.id type="button" class="btn btn-success"}}Edit{{/link-to}}
+      <button class="btn btn-danger" {{action 'deleteInvoice' invoice}}>Delete</button>
+		</div>
