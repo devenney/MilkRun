@@ -5,6 +5,27 @@
     <div class="panel-body">
         <p>Address: {{item.address}}</p>
     </div>
+
+    <!-- Invoices -->
+    {{#if item.invoices.length}}
+      <div class="well">
+        <table class="table">
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Amount</th>
+          </tr>
+          {{#each item.invoices as |invoice|}}
+            <tr>
+              <td>{{#link-to 'invoices.view' invoice.id}}{{invoice.id}}{{/link-to}}</td>
+              <td>{{invoice.date}}</td>
+              <td>{{invoice.amount}}</td>
+            </tr>
+          {{/each}}
+        </table>
+      </div>
+    {{/if}}
+
     <div class="panel-footer text-right">
       {{yield}}
     </div>

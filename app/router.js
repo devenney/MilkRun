@@ -11,6 +11,11 @@ Router.map(function() {
     this.route('new');
     this.route('edit', { path: '/:customer_id/edit' });
   });
+  this.route('invoices', function() {
+    this.route('new');
+    this.route('edit', { path: '/:invoice_id/edit' });
+    this.route('view', { path: '/:invoice_id/view' });
+  });
 });
 
 export default Router;
