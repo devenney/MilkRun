@@ -22,7 +22,7 @@ export default Ember.Route.extend({
     printInvoice() {
       // TODO: Wait for result.
       window.print();
-    },
+    }
   }
 });
 
