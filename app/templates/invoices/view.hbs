@@ -37,14 +37,39 @@
                 </td>
             </tr>
 
-            <tr class="total">
+            <tr class="{{if invoice.hasOutstanding '' 'total'}}">
+              <td></td>
+
+              <td>
+               Invoice Total: £{{invoice.amount}}
+              </td>
+            </tr>
+
+            {{#if invoice.hasOutstanding}}
+              <tr>
                 <td></td>
 
                 <td>
-                   Total: ${{invoice.amount}}
+                  Outstanding: {{invoice.outstanding}}
                 </td>
-            </tr>
+              </tr>
+
+              <tr class="total">
+                <td></td>
+
+                <td>
+                  Total: £{{invoice.total}}
+                </td>
+              </tr>
+            {{/if}}
         </table>
+    </div>
+		<div class="btn-group well pull-left" role="group">
+      {{#if invoice.paid}}
+        <button type="button" class="btn btn-danger" {{action 'markInvoiceUnpaid' invoice}}>Mark Unpaid</button>
+      {{else}}
+        <button type="button" class="btn btn-success" {{action 'markInvoicePaid' invoice}}>Mark Paid</button>
+      {{/if}}
     </div>
 
 		<div class="btn-group well pull-right" role="group">
