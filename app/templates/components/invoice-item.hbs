@@ -1,4 +1,4 @@
-<div class="panel panel-default invoice-item">
+<div class="panel panel-default invoice-item {{if item.paid 'invoice-item-paid' 'invoice-item-unpaid'}}">
     <div class="panel-heading">
         <h3 class="panel-title"><b>Invoice ID</b> {{#link-to 'invoices.view' item.id}}{{item.id}}{{/link-to}}</h3>
     </div>
