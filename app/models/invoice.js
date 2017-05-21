@@ -1,9 +1,43 @@
 import DS from 'ember-data';
-import { Model } from 'ember-pouch';
 import Ember from 'ember';
+import { Model } from 'ember-pouch';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-export default Model.extend({
+const Validations = buildValidations({
+  amount: {
+    description: 'Invoice Amount',
+    validators: [
+      validator('presence', true),
+      validator('format', {
+        regex: /^\d+(\.\d{2})?$/,
+      })
+    ]
+  },
+  customer: {
+    description: 'Invoice Customer',
+    validators: [
+      validator('presence', true),
+      validator('belongs-to')
+    ],
+  },
+  date: {
+    description: 'Invoice Date',
+    validators: [
+      validator('presence', true),
+      validator('date', {
+        format: 'DD-MM-YYYY'
+      })
+    ]
+  }
+})
+
+export default Model.extend(Validations, {
   rev: DS.attr('string'),
+  createdAt: DS.attr('date', {
+    defaultValue() {
+      return new Date();
+    }
+  }),
   date: DS.attr('date'),
   amount: DS.attr('number'),
   paid: DS.attr('boolean'),

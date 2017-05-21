@@ -22,18 +22,23 @@ export default Ember.Route.extend({
 
   actions: {
     saveInvoice(existingInvoice) {
-      existingInvoice.save().then(
-        invoice => {
-          let customerRef = invoice.belongsTo('customer');
-          let customer = customerRef.value();
-          customer.get('invoices').pushObject(invoice)
+      existingInvoice.validate()
+        .then(({ validations }) => {
+          if (validations.get('isValid')) {
+            existingInvoice.save().then(
+              invoice => {
+                let customerRef = invoice.belongsTo('customer');
+                let customer = customerRef.value();
 
-          customer.save().then(this.transitionTo('invoices'))
-        },
-        error => {
-          // FIXME: Display errors.
-        }
-      )
+                customer.get('invoices').pushObject(invoice)
+                customer.save().then(this.transitionTo('invoices'))
+              },
+              error => {
+                // FIXME: Display errors.
+              }
+            )
+          }
+        })
     },
 
     willTransition(transition) {
