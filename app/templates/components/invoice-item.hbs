@@ -1,13 +1,32 @@
-<div class="panel panel-default invoice-item {{if item.paid 'invoice-item-paid' 'invoice-item-unpaid'}}">
-    <div class="panel-heading">
-        <h3 class="panel-title"><b>Invoice ID</b> {{#link-to 'invoices.view' item.id}}{{item.id}}{{/link-to}}</h3>
-    </div>
-    <div class="panel-body">
-        <p>Amount: {{item.amount}}</p>
-        <p>Date: {{item.date}}</p>
-        <p>Customer Name: {{#link-to 'customers.edit' item.customer.id}}{{item.customer.forename}} {{item.customer.surname}}{{/link-to}}</p>
-    </div>
-    <div class="panel-footer text-right">
-      {{yield}}
-    </div>
+<div class="panel {{if item.paid 'panel-success' 'panel-danger'}} invoice-item">
+  {{#if item.id}}
+  <div class="panel-heading">
+      <h3 class="panel-title"><b>Invoice ID</b> {{#link-to 'invoices.view' item.id}}{{item.id}}{{/link-to}}</h3>
+  </div>
+  {{/if}}
+
+  <div class="panel-body">
+    {{#if item.amount}}
+      <p><b>Amount</b>: {{format-money item.amount}}</p>
+    {{/if}}
+
+    <p><b>Created</b>: {{moment-format item.createdAt 'DD-MM-YYYY'}}</p>
+
+    {{#if item.date}}
+      <p><b>Due Date</b>: {{moment-format item.date 'DD-MM-YYYY'}}</p>
+    {{/if}}
+
+    {{#if item.customer}}
+      <p>
+        <b>Customer Name</b>:
+        {{#link-to 'customers.edit' item.customer.id}}
+          {{item.customer.forename}} {{item.customer.surname}}
+        {{/link-to}}
+      </p>
+    {{/if}}
+  </div>
+
+  <div class="panel-footer text-right">
+    {{yield}}
+  </div>
 </div>
