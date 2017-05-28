@@ -22,7 +22,6 @@ export default Ember.Route.extend({
 
         customer.get('invoices').removeObject(invoice).then(
           () => {
-            console.log(customer)
             customer.save().then(
               () => {
                 invoice.destroyRecord();
