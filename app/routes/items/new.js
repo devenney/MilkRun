@@ -2,27 +2,26 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model() {
-    return this.store.createRecord('customer');
+    return this.store.createRecord('item')
   },
 
   setupController: function(controller, model) {
     this._super(controller, model);
 
-    controller.set('title', 'Create a new customer');
+    controller.set('title', 'Create a new item');
     controller.set('buttonLabel', 'Create');
   },
 
   renderTemplate() {
-    this.render('customers/form');
+    this.render('items/form');
   },
 
   actions: {
-
-    saveCustomer(newCustomer) {
-      newCustomer.validate()
+    saveItem(item) {
+      item.validate()
         .then(({ validations }) => {
           if (validations.get('isValid')) {
-            newCustomer.save().then(() => this.transitionTo('customers'));
+            item.save().then(() => this.transitionTo('items'));
           }
         })
     },

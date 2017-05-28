@@ -3,7 +3,7 @@
 <div class="row">
 
   <div class="col-md-6">
-    {{invoice-item-form model=invoice customers=model.customers buttonLabel=buttonLabel action='saveInvoice'}}
+    {{invoice-item-form model=invoice customers=model.customers items=model.items line=line buttonLabel=buttonLabel action='saveInvoice' addLine='addLine'}}
   </div>
 
   <div class="col-md-4">

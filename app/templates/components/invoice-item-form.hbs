@@ -1,11 +1,26 @@
 <div class="form-horizontal">
   {{validated-datepicker model=model value=model.date label="Date" valuePath='date'}}
-  {{validated-input model=model type="number" value=model.amount label="Amount" placeholder="0.00" valuePath='amount'}}
   {{validated-xselect model=model options=customers displayKey="fullname" label="Customer" valuePath='customer'}}
 
+
+  <div class="well">
+    <p style="text-align: center;"><em>Add Invoice Lines</em></p>
+    {{validated-input model=line type="number" value=line.count label="Count" placeholder="0" valuePath='count'}}
+    {{validated-xselect model=line options=items displayKey='name' label="Item" valuePath='item'}}
+    {{validated-input model=line type="number" value=line.item.ppu label="PPU" placeholder=model.count valuePath='ppu'}}
+    <div class="form-group">
+      <label class="control-label col-sm-2">Add</label>
+      <div class="col-sm-10">
+        <button class="btn btn-block" {{action 'addLine'}} disabled={{unless (v-get line 'isValid') true}}>+</button>
+      </div>
+    </div>
+
+   </div>
+
+
   <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default" {{action 'buttonClicked' model}} disabled={{unless (v-get model 'isValid') true}}>
+    <div class="col-md-12">
+      <button type="submit" class="btn btn-primary btn-block" {{action 'buttonClicked' model}} disabled={{unless (v-get model 'isValid') true}}>
         {{buttonLabel}}
       </button>
     </div>

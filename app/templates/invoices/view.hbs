@@ -38,6 +38,28 @@
       </td>
     </tr>
 
+    <tr class="heading">
+      <td>
+        Item
+      </td>
+
+      <td>
+        Price
+      </td>
+    </tr>
+
+    {{#each invoice.lines as |line|}}
+      <tr class="item">
+        <td>
+          <b>{{line.item.name}}</b> x {{line.count}} {{line.item.unit}} (@ {{format-money line.ppu}})
+        </td>
+
+        <td>
+          {{format-money line.cost}}
+        </td>
+      </tr>
+    {{/each}}
+
     <tr class="{{if invoice.hasOutstanding '' 'total'}}">
       <td></td>
 
@@ -51,7 +73,7 @@
         <td></td>
 
         <td>
-          Outstanding: {{invoice.outstanding}}
+          Outstanding: {{format-money invoice.outstanding}}
         </td>
       </tr>
 
@@ -59,7 +81,7 @@
         <td></td>
 
         <td>
-          Total: £{{invoice.total}}
+          Total: {{format-money invoice.total}}
         </td>
       </tr>
     {{/if}}

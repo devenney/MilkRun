@@ -13,6 +13,12 @@ const Validations = buildValidations({
       })
     ]
   },
+  createdAt: {
+    description: 'Creation Date',
+    validators: [
+      validator('presence', true),
+    ]
+  },
   customer: {
     description: 'Invoice Customer',
     validators: [
@@ -28,51 +34,109 @@ const Validations = buildValidations({
         format: 'DD-MM-YYYY'
       })
     ]
+  },
+  hasOutstanding: {
+    description: 'Boolean tracking outstanding balance presence',
+    validators: [
+      validator('presence', true)
+    ]
+  },
+  lines: {
+    description: 'Invoice Lines',
+    validators: [
+      validator('presence', true),
+      validator('length', {
+        min: 1
+      })
+    ]
+  },
+  outstanding: {
+    description: 'Previous Outstanding',
+    validators: [
+      //TODO: Validate optional field?
+    ]
+  },
+  paid: {
+    description: 'Invoice Payment State',
+    validators: [
+      validator('presence', true)
+    ]
+  },
+  total: {
+    description: 'Invoice Total (Amount + Outstanding)',
+    validators: [
+      //TODO: Validate optional field?
+    ]
   }
 })
 
 export default Model.extend(Validations, {
-  rev: DS.attr('string'),
   createdAt: DS.attr('date', {
     defaultValue() {
       return new Date();
     }
   }),
+
   date: DS.attr('date'),
-  amount: DS.attr('number'),
-  paid: DS.attr('boolean'),
+
+  paid: DS.attr('boolean', {
+    defaultValue() {
+      return false;
+    }
+  }),
+
+  // Relationships
   customer: DS.belongsTo('customer', {inverse: 'invoices'}),
+  lines: DS.hasMany('invoice-line', {inverse: 'invoice'}),
+
+  // Computed Values
+  amount: function() {
+    var subtotal = Number(0)
+
+    let lines = this.get('lines')
+
+    if (lines) {
+      lines.forEach(function(line) {
+        subtotal += Number(line.get("cost"));
+      })
+    }
+
+    return Number(subtotal).toFixed(2)
+  }.property("lines.@each.cost"),
 
   // Outstanding Balance (exc. this)
   outstanding: function(){
-    var id = this.get('id')
     var invoices = this.get("customer.invoices");
+    var id = this.get("id")
 
-    var ret = 0;
+    var ret = Number(0);
 
-    invoices.forEach(function(invoice){
-      if (!invoice.get('paid') && invoice.get('id') != id) {
-        ret += invoice.get("amount");
-      }
-    });
+    if(invoices) {
+      invoices.forEach(function(invoice){
+        if (!invoice.get('paid') && invoice.get('id') != id) {
+          ret += Number(invoice.get("amount"));
+        }
+      });
+    }
 
     return ret.toFixed(2);
   }.property("customer.invoices.@each.paid"),
 
   // Total Due (inc. Outstanding)
   total: function(){
-    var id = this.get('id')
     var invoices = this.get("customer.invoices");
 
-    var ret = 0;
+    var ret = Number(0);
 
-    invoices.forEach(function(invoice){
-      if (!invoice.get('paid')) {
-        ret += invoice.get("amount");
-      }
-    });
+    if (invoices) {
+      invoices.forEach(function(invoice){
+        if (!invoice.get('paid')) {
+          ret += Number(invoice.get("amount"));
+        }
+      });
+    }
 
-    return ret.toFixed(2);
+    return Number(ret).toFixed(2);
   }.property("customer.invoices.@each.paid"),
 
   hasOutstanding: Ember.computed.gt('outstanding', 0)
