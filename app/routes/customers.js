@@ -18,13 +18,24 @@ export default Ember.Route.extend({
       let confirmation = confirm('Are you sure?');
 
       if (confirmation) {
-	customer.get('invoices').forEach(
-          invoice => {
-            invoice.destroyRecord();
-          }
-        )
 
-        customer.destroyRecord();
+        let deletedInvoices = [];
+
+        customer.get('invoices').then(
+          invoices => {
+            invoices.map(
+              invoice => {
+                deletedInvoices.push(invoice.destroyRecord());
+              }
+            );
+          }
+        );
+
+        Ember.RSVP.all(deletedInvoices).then(
+          () => {
+            customer.destroyRecord();
+          }
+        );
       }
     },
 
