@@ -18,7 +18,18 @@ export default Ember.Route.extend({
       let confirmation = confirm('Are you sure?');
 
       if (confirmation) {
-        invoice.destroyRecord();
+        let customer = invoice.belongsTo('customer').value();
+
+        customer.get('invoices').removeObject(invoice).then(
+          () => {
+            console.log(customer)
+            customer.save().then(
+              () => {
+                invoice.destroyRecord();
+              }
+            )
+          }
+        )
       }
     },
 
@@ -34,6 +45,27 @@ export default Ember.Route.extend({
         invoice.paid = false;
         invoice.save();
       }
-    }
+    },
+
+    saveInvoice(invoice) {
+      invoice.validate()
+        .then(({ validations }) => {
+          if (validations.get('isValid')) {
+            invoice.save().then(
+              invoice => {
+                let customer = invoice.belongsTo('customer').value();
+                customer.get('invoices').pushObject(invoice)
+                customer.save().then(
+                  () => this.transitionTo('invoices')
+                )
+              },
+              error => {
+                alert(error)
+                // FIXME: Display errors properly.
+              }
+            )
+          }
+        })
+    },
   }
 });

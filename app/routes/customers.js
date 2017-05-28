@@ -12,4 +12,29 @@ export default Ember.Route.extend({
 
     return Ember.RSVP.all(promises);
   },
+
+  actions: {
+    deleteCustomer(customer) {
+      let confirmation = confirm('Are you sure?');
+
+      if (confirmation) {
+	customer.get('invoices').forEach(
+          invoice => {
+            invoice.destroyRecord();
+          }
+        )
+
+        customer.destroyRecord();
+      }
+    },
+
+    saveCustomer(customer) {
+      customer.validate()
+        .then(({ validations }) => {
+          if (validations.get('isValid')) {
+            customer.save().then(() => this.transitionTo('customers'));
+          }
+        })
+    },
+  }
 });

@@ -49,27 +49,6 @@ export default Ember.Route.extend({
       )
     },
 
-    saveInvoice(newInvoice) {
-      newInvoice.validate()
-        .then(({ validations }) => {
-          if (validations.get('isValid')) {
-            newInvoice.save().then(
-              invoice => {
-                let customerRef = invoice.belongsTo('customer');
-                let customer = customerRef.value();
-                customer.get('invoices').pushObject(invoice)
-
-                customer.save().then(this.transitionTo('invoices'))
-              },
-              error => {
-                alert(error)
-                // FIXME: Display errors properly.
-              }
-            )
-          }
-        })
-    },
-
     willTransition(transition) {
       let invoice = this.controller.get('invoice');
 

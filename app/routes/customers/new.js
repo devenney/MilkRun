@@ -17,16 +17,6 @@ export default Ember.Route.extend({
   },
 
   actions: {
-
-    saveCustomer(newCustomer) {
-      newCustomer.validate()
-        .then(({ validations }) => {
-          if (validations.get('isValid')) {
-            newCustomer.save().then(() => this.transitionTo('customers'));
-          }
-        })
-    },
-
     willTransition(transition) {
       let model = this.controller.get('model')
 
