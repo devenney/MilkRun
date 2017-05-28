@@ -14,11 +14,13 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    // Delete customer and all associated invoices
     deleteCustomer(customer) {
       let confirmation = confirm('Are you sure?');
 
       if (confirmation) {
 
+        // Array of deletions to execute
         let deletedInvoices = [];
 
         customer.get('invoices').then(
@@ -31,6 +33,7 @@ export default Ember.Route.extend({
           }
         );
 
+        // Delete all invoices then delete customer
         Ember.RSVP.all(deletedInvoices).then(
           () => {
             customer.destroyRecord();
@@ -39,11 +42,17 @@ export default Ember.Route.extend({
       }
     },
 
+    // Save a new or modified customer record
     saveCustomer(customer) {
+      // The 'save' button should only enable when the model is valid,
+      // but better safe than sorry
       customer.validate()
         .then(({ validations }) => {
           if (validations.get('isValid')) {
             customer.save().then(() => this.transitionTo('customers'));
+          } else {
+            // FIXME: Display errors properly
+            alert("Please fix errors before saving.")
           }
         })
     },
