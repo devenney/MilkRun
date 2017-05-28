@@ -1,0 +1,13 @@
+<div class="form-horizontal">
+  {{validated-input model=model type="string" value=model.name label="Name" placeholder="Item Name" valuePath="name"}}
+  {{validated-input model=model type="string" value=model.unit label="Unit" placeholder="Litres (L)" valuePath="unit"}}
+  {{validated-input model=model type="number" value=model.ppu label="PPU" placeholder="0.00" valuePath="ppu"}}
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default" {{action 'buttonClicked' model}} disabled={{unless (v-get model 'isValid') true}}>
+        {{buttonLabel}}
+      </button>
+    </div>
+  </div>
+</div>

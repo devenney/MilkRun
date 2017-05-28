@@ -34,7 +34,7 @@ export default Ember.Route.extend({
         let confirmation = confirm("Your changes haven't been saved. Would you like to leave this form?");
 
         if (confirmation) {
-          model.rollebackAttributes();
+          model.rollbackAttributes();
         } else {
           transition.abort();
         }

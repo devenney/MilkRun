@@ -6,9 +6,7 @@
   {{/if}}
 
   <div class="panel-body">
-    {{#if item.amount}}
-      <p><b>Amount</b>: {{format-money item.amount}}</p>
-    {{/if}}
+      <p><b>Amount</b>: {{item.amount}}</p>
 
     <p><b>Created</b>: {{moment-format item.createdAt 'DD-MM-YYYY'}}</p>
 
@@ -23,6 +21,29 @@
           {{item.customer.forename}} {{item.customer.surname}}
         {{/link-to}}
       </p>
+    {{/if}}
+
+    {{#if item.lines.length}}
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Count</th>
+            <th>Item</th>
+            <th>PPU</th>
+            <th><b>Cost</b></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each item.lines as |line|}}
+            <tr>
+              <td>{{line.count}}</td>
+              <td>{{line.item.name}}</td>
+              <td>{{format-money line.ppu}}</td>
+              <td><b>{{format-money line.cost}}</b></td>
+            </tr>
+           {{/each}}
+         </tbody>
+      </table>
     {{/if}}
   </div>
 
