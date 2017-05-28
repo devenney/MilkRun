@@ -43,13 +43,14 @@ export default Ember.Route.extend({
           invoice.get('lines').pushObject(line)
 
           invoice.save().then(
-            invoice => {
+            () => {
               this.controller.set('line', this.store.createRecord('invoice-line'))
             }
           )
         },
         error => {
-          // FIXME: Display errors.
+          alert(error)
+          // FIXME: Display errors properly.
         }
       )
     },
@@ -77,8 +78,6 @@ export default Ember.Route.extend({
 
     willTransition(transition) {
       let invoice = this.controller.get('invoice');
-
-      console.log(invoice);
 
       if (invoice.get('hasDirtyAttributes')) {
         let confirmation = confirm("Your changes haven't saved yet. Would you like to leave this form?");

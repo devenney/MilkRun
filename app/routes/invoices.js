@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  afterModel: function(model) {
+  afterModel: function() {
     var store = this.get('store')
 
     var promises = [

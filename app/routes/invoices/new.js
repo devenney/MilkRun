@@ -40,12 +40,11 @@ export default Ember.Route.extend({
 
           invoice.get('lines').pushObject(line)
 
-          console.log(invoice.id)
-
           this.controller.set('line', this.store.createRecord('invoice-line'))
         },
         error => {
-          // FIXME: Display errors.
+          alert(error)
+          // FIXME: Display errors properly.
         }
       )
     },
@@ -60,10 +59,11 @@ export default Ember.Route.extend({
                 let customer = customerRef.value();
                 customer.get('invoices').pushObject(invoice)
 
-    	        customer.save().then(this.transitionTo('invoices'))
+                customer.save().then(this.transitionTo('invoices'))
               },
               error => {
-                // FIXME: Display errors.
+                alert(error)
+                // FIXME: Display errors properly.
               }
             )
           }

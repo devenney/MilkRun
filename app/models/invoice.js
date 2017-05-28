@@ -106,8 +106,8 @@ export default Model.extend(Validations, {
 
   // Outstanding Balance (exc. this)
   outstanding: function(){
-    var id = this.get('id')
     var invoices = this.get("customer.invoices");
+    var id = this.get("id")
 
     var ret = Number(0);
 
@@ -124,7 +124,6 @@ export default Model.extend(Validations, {
 
   // Total Due (inc. Outstanding)
   total: function(){
-    var id = this.get('id')
     var invoices = this.get("customer.invoices");
 
     var ret = Number(0);
