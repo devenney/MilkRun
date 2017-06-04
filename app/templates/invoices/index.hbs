@@ -1,20 +1,75 @@
-<h2>List</h2>
-
 <div class="row">
-  {{#each model.invoices as |invoice|}}
-    <div class="col-md-6">
-      {{#invoice-item item=invoice}}
-        {{#if invoice.paid}}
-          <button class="btn btn-primary btn-xs pull-left" {{action 'markInvoiceUnpaid' invoice}}>Mark Unpaid</button>
+  <div class="col-md-6">
+    <button class="btn-xs {{if showAll 'btn-primary' 'btn-secondary'}}" {{action (pipe (toggle "showAll" this) (toggle "showUnpaid" this false) (toggle "showPaid" this false))}}>
+        {{#if showAll}}
+          Hide All
         {{else}}
-          <button class="btn btn-primary btn-xs pull-left" {{action 'markInvoicePaid' invoice}}>Mark Paid</button>
+          Show All
         {{/if}}
+    </button>
 
-        {{#link-to 'invoices.view' invoice.id class="btn btn-success btn-xs"}}View{{/link-to}}
-        {{#link-to 'invoices.edit' invoice.id class="btn btn-warning btn-xs"}}Edit{{/link-to}}
-        <button class="btn btn-danger btn-xs" {{action 'deleteInvoice' invoice}}>Delete</button>
-      {{/invoice-item}}
-    </div>
-  {{/each}}
+    <button class="btn-xs {{if showPaid 'btn-primary' 'btn-secondary'}}" {{action (pipe (toggle "showPaid" this) (toggle "showUnpaid" this false) (toggle "showAll" this false))}}>
+      {{#if showPaid}}
+        Hide Paid
+      {{else}}
+        Show Paid
+      {{/if}}
+    </button>
+
+    <button class="btn-xs {{if showUnpaid 'btn-primary' 'btn-secondary'}}" {{action (pipe (toggle "showUnpaid" this) (toggle "showPaid" this false) (toggle "showAll" this false))}}>
+      {{#if showUnpaid}}
+        Hide Unpaid
+      {{else}}
+        Show Unpaid
+      {{/if}}
+    </button>
+  </div>
 </div>
 
+{{#if (or showAll showUnpaid)}}
+  {{#if (filter-by "paid" false model.invoices)}}
+
+    <h3>Unpaid</h3>
+
+    <div class="row">
+      {{#each (filter-by "paid" false model.invoices) as |invoice|}}
+        <div class="col-md-6">
+          {{#invoice-item item=invoice}}
+            <button class="btn btn-primary btn-xs pull-left" {{action 'markInvoicePaid' invoice}}>Mark Paid</button>
+
+            {{#link-to 'invoices.view' invoice.id class="btn btn-success btn-xs"}}View{{/link-to}}
+            {{#link-to 'invoices.edit' invoice.id class="btn btn-warning btn-xs"}}Edit{{/link-to}}
+            <button class="btn btn-danger btn-xs" {{action 'deleteInvoice' invoice}}>Delete</button>
+          {{/invoice-item}}
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <h3>No Unpaid Invoices</h3>
+    <br />
+  {{/if}}
+{{/if}}
+
+{{#if (or showAll showPaid)}}
+  {{#if (filter-by "paid" true model.invoices)}}
+
+  <h3>Paid</h3>
+
+    <div class="row">
+      {{#each (filter-by "paid" true model.invoices) as |invoice|}}
+        <div class="col-md-6">
+          {{#invoice-item item=invoice}}
+            <button class="btn btn-primary btn-xs pull-left" {{action 'markInvoiceUnpaid' invoice}}>Mark Unpaid</button>
+
+            {{#link-to 'invoices.view' invoice.id class="btn btn-success btn-xs"}}View{{/link-to}}
+            {{#link-to 'invoices.edit' invoice.id class="btn btn-warning btn-xs"}}Edit{{/link-to}}
+            <button class="btn btn-danger btn-xs" {{action 'deleteInvoice' invoice}}>Delete</button>
+          {{/invoice-item}}
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <h3>No Paid Invoices</h3>
+    <br />
+  {{/if}}
+{{/if}}
