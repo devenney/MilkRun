@@ -66,7 +66,7 @@ export default Ember.Route.extend({
                 customer.get('invoices').pushObject(invoice)
 
                 customer.save().then(
-                  () => this.transitionTo('invoices')
+                  () => this.transitionTo('invoices.view', invoice.id)
                 )
               },
               error => {
