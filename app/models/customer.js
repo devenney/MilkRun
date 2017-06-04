@@ -43,6 +43,13 @@ export default Model.extend(Validations, {
 
   invoices: DS.hasMany('invoice', {inverse: 'customer'}),
 
+  outstanding: Ember.computed('invoices.@each.paid', function () {
+    let invoices = this.get('invoices');
+    let unpaidInvoices = invoices.filterBy('paid', false);
+
+    return (unpaidInvoices.length > 0);
+  }),
+
   fullname: function() {
     let forename = this.get('forename')
     let surname = this.get('surname')
