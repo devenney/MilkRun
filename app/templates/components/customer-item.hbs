@@ -1,4 +1,4 @@
-<div class="panel panel-primary customer-item">
+<div class="panel {{if item.outstanding "panel-danger" "panel-primary"}} customer-item">
   <div class="panel-heading">
     <h3 class="panel-title">{{item.fullname}}</h3>
   </div>
@@ -26,7 +26,7 @@
             <th>Paid</th>
           </tr>
 
-          {{#each item.invoices as |invoice|}}
+          {{#each (sort-by "date:desc" item.invoices) as |invoice|}}
             <tr>
               <td>{{#link-to 'invoices.view' invoice.id}}{{moment-format invoice.date 'Do MMM YYYY'}}{{/link-to}}</td>
               <td>{{format-money invoice.amount}}</td>

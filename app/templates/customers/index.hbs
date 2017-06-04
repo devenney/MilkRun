@@ -1,7 +1,19 @@
+<div class="row">
+  <div class="col-md-6">
+<button class="btn-xs {{if showAll 'btn-primary' 'btn-danger'}}" {{action (pipe (toggle "showAll" this)) }}>
+    {{#if showAll}}
+      Show Outstanding Only
+    {{else}}
+      Show All
+    {{/if}}
+</button>
+  </div>
+</div>
+
 <h2>List</h2>
 
 <div class="row">
-  {{#each model as |customer|}}
+  {{#each (if showAll model (filter-by "outstanding" true model)) as |customer|}}
     <div class="col-md-6">
       {{#customer-item item=customer}}
         {{#link-to 'customers.edit' customer.id class="btn btn-success btn-xs"}}Edit{{/link-to}}
