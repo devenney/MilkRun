@@ -27,8 +27,6 @@ export default Ember.Route.extend({
   },
 
   actions: {
-
-
    addLine() {
       let line = this.controller.get('line');
       let invoice = this.controller.get('invoice');
@@ -53,27 +51,6 @@ export default Ember.Route.extend({
           // FIXME: Display errors properly.
         }
       )
-    },
-
-    saveInvoice(existingInvoice) {
-      existingInvoice.validate()
-        .then(({ validations }) => {
-          if (validations.get('isValid')) {
-            existingInvoice.save().then(
-              invoice => {
-                let customerRef = invoice.belongsTo('customer');
-                let customer = customerRef.value();
-
-                customer.get('invoices').pushObject(invoice)
-                customer.save().then(this.transitionTo('invoices'))
-              },
-              error => {
-                alert(error)
-                // FIXME: Display errors.
-              }
-            )
-          }
-        })
     },
 
     willTransition(transition) {
