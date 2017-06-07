@@ -20,6 +20,7 @@ Router.map(function() {
     this.route('new');
     this.route('edit', { path: '/:item_id/edit' });
   });
+  this.route('config');
 });
 
 export default Router;

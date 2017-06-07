@@ -1,6 +1,6 @@
 <div class='form-group'>
-  <label class="control-label col-sm-2">{{label}}</label>
-  <div class="col-sm-10">
+  <label class="control-label col-sm-3">{{label}}</label>
+  <div class="col-sm-9">
     {{#x-select class="form-control" value=(get model valuePath) action=(action (mut (get model valuePath))) as |xs|}}
     <option value="" selected={{if (get model valuePath) false true}} disabled>Select a {{label}}</option>
       {{#each options as |option|}}

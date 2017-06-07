@@ -1,0 +1,20 @@
+<h2>Configuration</h2>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-horizontal">
+      {{log config}}
+
+      {{validated-input model=config type="text" value=config.addressLineOne label="Address (Line 1)" placeholder="Meikle Balquhomrie Farm" valuePath="addressLineOne"}}
+      {{validated-input model=config type="text" value=config.addressLineTwo label="Address (Line 2)" placeholder="Leslie" valuePath="addressLineTwo"}}
+      {{validated-input model=config type="text" value=config.city label="City" placeholder="Glenrothes" valuePath="city"}}
+      {{validated-input model=config type="text" value=config.postcode label="Postcode" placeholder="KY6 3JL" valuePath="postcode"}}
+
+        <div class="com-sm-offset-2 col-sm-4">
+          <button type="submit" class="btn btn-default" {{action 'buttonClicked' config}} disabled={{unless (v-get config 'isValid') true}}>
+            Save Config
+          </button>
+        </div>
+    </div>
+  </div>
+</div>

@@ -25,8 +25,9 @@
           <tr>
             <td>
               <!-- FIXME: Hardcoded! -->
-              Meikle Balquhomrie Farm<br>
-              Leslie, Glenrothes KY6 3JL
+              {{config.addressLineOne}}<br>
+              {{#if config.addressLineTwo}}{{config.addressLineTwo}}<br>{{/if}}
+              {{config.city}}, {{config.postcode}}
             </td>
 
             <td>
