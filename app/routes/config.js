@@ -10,7 +10,7 @@ export default Ember.Route.extend({
 
     var store = this.store;
 
-    if (model === null) {
+    if (model.content.length === 0) {
       var settings = store.createRecord('config')
       controller.set('config', settings)
     } else {
