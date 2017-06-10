@@ -9,8 +9,8 @@
     {{validated-xselect model=line options=items displayKey='name' label="Item" valuePath='item'}}
     {{validated-input model=line type="number" value=line.item.ppu label="PPU" placeholder=model.count valuePath='ppu'}}
     <div class="form-group">
-      <label class="control-label col-sm-2">Add</label>
-      <div class="col-sm-10">
+      <label class="control-label col-sm-3">Add</label>
+      <div class="col-sm-9">
         <button class="btn btn-block" {{action 'addLine'}} disabled={{unless (v-get line 'isValid') true}}>+</button>
       </div>
     </div>
